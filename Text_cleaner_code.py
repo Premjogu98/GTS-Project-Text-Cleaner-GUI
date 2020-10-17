@@ -34,12 +34,23 @@ def code(upload_file_path,uploadfile_text):
             print('StopWord : Done')
             f1.close()
 
+        with open("C:\\text cleaner app\\custom_stopwords.txt" ,encoding='utf-8') as f3:
+            custom_stopwords = f3.readlines()
+            custom_stopwords = [s.replace("\n", "") for s in custom_stopwords]
+            custom_stopwords = [s.lower() for s in custom_stopwords]
+            new_doc = []
+            for d in doc:
+                for custom_word in custom_stopwords:
+                    d = d.lower()
+                    d = d.replace(custom_word, " ")
+                new_doc.append(d)
+
         with open("C:\\text cleaner app\\Cleaned Text.txt" , "w") as f2:
             print('Cleaned Text : Processing...........')
             count = 0
             # clean_text_list = []
-            for d in doc:
-                d = [word for word in d.split() if word.lower() not in stopwords_Arr ]
+            for d in new_doc:
+                d = [word for word in d.split() if word.lower() not in stopwords_Arr]
                 d = " ".join(d)
                 d = re.sub(r'No', "", d)
                 d = re.sub('\s+', ' ', d)
